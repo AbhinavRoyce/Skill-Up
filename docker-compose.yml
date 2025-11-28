@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: skillup-db
+    restart: always
+    environment:
+      POSTGRES_USER: skillup_user
+      POSTGRES_PASSWORD: skillup_pass
+      POSTGRES_DB: skillup_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - skillup-db-data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: skillup-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@skillup.local
+      PGADMIN_DEFAULT_PASSWORD: admin123
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+volumes:
+  skillup-db-data:
